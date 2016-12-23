@@ -3,8 +3,12 @@ import numpy as np
 class Plot:
     def __init__(self):
         self.ax = None
-        self.name = "Default"
+        self.name = "None"
         self.fig = None
+        self.xminDefault = 0.0
+        self.xmaxDefault = 0.0
+        self.yminDefault = 0.0
+        self.ymaxDefault = 0.0
 
 class PlotHandler:
     def __init__(self):
@@ -41,11 +45,14 @@ class PlotHandler:
         newPlot = Plot()
         newPlot.ax = ax
         newPlot.fig = fig
+        newPlot.xminDefault, newPlot.xmaxDefault = ax.get_xlim()
+        newPlot.yminDefault, newPlot.ymaxDefault = ax.get_ylim()
         if ( self.nameExists(name) ):
             print ("Figure name already exists!")
             return
-            
+
         newPlot.name = name
+        newPlot.fig.canvas.set_window_title(name)
         self.axes.append(newPlot)
         self.active = len(self.axes)-1
 
