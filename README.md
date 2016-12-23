@@ -39,3 +39,5 @@ control.attach( fig, ax, "emptyFig.svg" )
 ```
 
 An example is provided in the *guiTest.py* script.
+The axes can either be altered by the sliders provided in the GUI or
+by using the standard zooms and pan funcionality that comes with *matplotlib*.

@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib as mpl
+from matplotlib import pyplot as plt
 
 class Plot:
     def __init__(self):
@@ -14,6 +16,9 @@ class PlotHandler:
     def __init__(self):
         self.axes = []
         self.active = 0
+        self.yloc = plt.MaxNLocator(5)
+        self.xloc = plt.MaxNLocator(5)
+        plt.locator_params(nbins=5)
 
     def set_xlim( self, left=None, right=None ):
         if ( self.active >= len(self.axes) ):

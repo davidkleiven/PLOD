@@ -103,15 +103,16 @@ class Control:
         dx = 1E-3*(active.xmaxDefault-active.xminDefault)
         self.xlim.min.configure(from_=active.xminDefault, to_=active.xmaxDefault-dx)
         self.xlim.max.configure(from_=active.xminDefault+dx, to_=active.xmaxDefault)
-        self.xlim.min.set(active.xminDefault)
-        self.xlim.max.set(active.xmaxDefault)
+        xmin, xmax = ax.get_xlim()
+        self.xlim.min.set(xmin)
+        self.xlim.max.set(xmax)
 
-        ymin, ymax = ax.get_ylim()
         dy = 1E-3*(active.ymaxDefault-active.yminDefault)
         self.ylim.min.configure(from_=active.yminDefault, to_=active.ymaxDefault-dy)
         self.ylim.max.configure(from_=active.yminDefault+dy, to_=active.ymaxDefault)
-        self.ylim.min.set(active.yminDefault)
-        self.ylim.max.set(active.ymaxDefault)
+        ymin, ymax = ax.get_ylim()
+        self.ylim.min.set(ymin)
+        self.ylim.max.set(ymax)
 
     def updateXmin( self, value ):
         self.plots.set_xlim( left=value )
