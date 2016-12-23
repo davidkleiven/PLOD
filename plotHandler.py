@@ -1,26 +1,65 @@
 import numpy as np
 
+class Plot:
+    def __init__(self):
+        self.ax = None
+        self.name = "Default"
+        self.fig = None
+
 class PlotHandler:
     def __init__(self):
         self.axes = []
         self.active = 0
 
     def set_xlim( self, left=None, right=None ):
-        assert ( self.active < len(self.axes) )
+        if ( self.active >= len(self.axes) ):
+            return
+
         if ( not left is None ):
-            self.axes[self.active].set_xlim( left=left )
+            self.axes[self.active].ax.set_xlim( left=left )
 
         if ( not right is None ):
-            self.axes[self.active].set_xlim( right=right )
+            self.axes[self.active].ax.set_xlim( right=right )
 
-    def set_ylim( self, lower=None, upper=None ):
-        assert ( self.active < len(self.axes) )
-        if ( not lower is None ):
-            self.axes[self.active].set_ylim( lower=lower )
+    def set_ylim( self, bottom=None, top=None ):
+        if (self.active >= len(self.axes) ):
+            return
 
-        if ( not upper is None ):
-            self.axes[self.active].set_ylim( upper=upper )
+        if ( not bottom is None ):
+            self.axes[self.active].ax.set_ylim( bottom=bottom )
 
-    def attach( self, ax ):
-        self.axes.append(ax)
+        if ( not top is None ):
+            self.axes[self.active].ax.set_ylim( top=top )
+
+    def nameExists( self, newname ):
+        for plot in self.axes:
+            if ( newname == plot.name ):
+                return True
+        return False
+
+    def attach( self, fig, ax, name ):
+        newPlot = Plot()
+        newPlot.ax = ax
+        newPlot.fig = fig
+        if ( self.nameExists(name) ):
+            print ("Figure name already exists!")
+            return
+            
+        newPlot.name = name
+        self.axes.append(newPlot)
         self.active = len(self.axes)-1
+
+    def getActive( self ):
+        if ( self.active >= len(self.axes)):
+            print ("Warning: No plots added!")
+            return None
+        return self.axes[self.active]
+
+    def updateActive( self, newname ):
+        for i in range(0, len(self.axes)):
+            if ( self.axes[i].name == newname ):
+                self.active = i
+                return self.axes[i].ax
+        self.active = 0
+        print ("Warning: Did not find any plots with the name %s"%(newname))
+        return self.axes[0].ax

@@ -10,7 +10,7 @@ def main():
     ax = fig.add_subplot(1,1,1)
     ax.plot(x,y,color="black")
     handler = ph.PlotHandler()
-    handler.attach(ax)
+    handler.attach(ax, "Test")
     plt.show( block=False )
     time.sleep(5)
     handler.set_xlim( right=1 )
