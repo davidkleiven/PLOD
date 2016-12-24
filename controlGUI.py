@@ -4,44 +4,6 @@ from matplotlib import pyplot as plt
 import subprocess
 import numpy as np
 
-class MaxMinSlider:
-    def __init__(self, master ):
-        self.master = master
-        self.minCallback = None
-        self.maxCallback = None
-        self.min = tk.Scale(self.master, from_=0.0, to_=100, length=600, width=50, orient="horizontal", command=self.updateMin, label="Min", resolution=-1, digits=4 )
-        self.max = tk.Scale(self.master, from_=0.0, to_=100, length=600, width=50, orient="horizontal", command=self.updateMax, label="Max", resolution=-1, digits=4 )
-
-    def updateMin( self, value ):
-        value = float(value)
-        delta = 1E-4*np.abs(value)
-        self.max.configure(from_=value+delta)
-        if ( not self.minCallback is None ):
-            self.minCallback(float(value))
-
-    def updateMax( self, value ):
-        value = float(value)
-        delta = 1E-4*np.abs(value)
-        self.min.configure(to_=value-delta)
-        if ( not self.maxCallback is None ):
-            self.maxCallback(float(value))
-
-    def disable( self ):
-        self.min.config(state="disabled")
-        self.max.config(state="disabled")
-
-    def enable( self ):
-        self.min.config(state="normal")
-        self.max.config(state="normal")
-
-    def pack(self):
-        self.min.pack()
-        self.max.pack()
-
-    def pack_forget( self ):
-        self.min.pack_forget()
-        self.max.pack_forget()
-
 class Control:
     def __init__( self, master ):
         self.master = master
@@ -54,17 +16,15 @@ class Control:
         self.availablePlots = ["None"]
         self.availablePlotsMenu = tk.OptionMenu( self.master, self.activePlot, *self.availablePlots, command=self.changePlot )
 
-        # Create scale for the x-axis
-        self.xminLabel = tk.Label( self.master, text="Adjust x-axis")
-        self.xlim = MaxMinSlider( master )
-        self.xlim.minCallback = self.updateXmin
-        self.xlim.maxCallback = self.updateXmax
-
-        # Create scale for y-axis
-        self.ylabel = tk.Label(self.master, text="Adjust y-axis")
-        self.ylim = MaxMinSlider( master )
-        self.ylim.minCallback = self.updateYmin
-        self.ylim.maxCallback = self.updateYmax
+        # Control x-min
+        self.xminLab = tk.Label( self.master, text="xmin:")
+        self.xmin = tk.Entry( self.master, width=10 )
+        self.xmaxLab = tk.Label( self.master, text="xmax:")
+        self.xmax = tk.Entry( self.master, width=10)
+        self.yminLab = tk.Label( self.master, text="ymin:")
+        self.ymin = tk.Entry( self.master, width=10 )
+        self.ymaxLab = tk.Label( self.master, text="ymax:")
+        self.ymax = tk.Entry( self.master, width=10 )
 
         # Button for replotting
         self.replotButton = tk.Button(self.master, text="Replot", command=self.replot)
@@ -89,30 +49,27 @@ class Control:
         self.plots.attach(fig, ax,name)
         self.availablePlots.append(name)
         self.activePlot.set(name)
-        self.updateSliders(ax)
+        self.updateEntries(ax)
         self.availablePlotsMenu.destroy()
         self.availablePlotsMenu = tk.OptionMenu( self.master, self.activePlot, *self.availablePlots, command=self.changePlot )
-        self.pack_forget()
         self.pack()
 
-    def updateSliders( self, ax ):
+    def updateEntries( self, ax ):
         active = self.plots.getActive()
         if ( active is None ):
             return
 
-        dx = 1E-3*(active.xmaxDefault-active.xminDefault)
-        self.xlim.min.configure(from_=active.xminDefault, to_=active.xmaxDefault-dx)
-        self.xlim.max.configure(from_=active.xminDefault+dx, to_=active.xmaxDefault)
         xmin, xmax = ax.get_xlim()
-        self.xlim.min.set(xmin)
-        self.xlim.max.set(xmax)
+        self.xmin.delete(0, tk.END )
+        self.xmax.delete(0, tk.END)
+        self.xmin.insert(0, xmin)
+        self.xmax.insert(0,xmax)
 
-        dy = 1E-3*(active.ymaxDefault-active.yminDefault)
-        self.ylim.min.configure(from_=active.yminDefault, to_=active.ymaxDefault-dy)
-        self.ylim.max.configure(from_=active.yminDefault+dy, to_=active.ymaxDefault)
         ymin, ymax = ax.get_ylim()
-        self.ylim.min.set(ymin)
-        self.ylim.max.set(ymax)
+        self.ymin.delete(0, tk.END )
+        self.ymax.delete(0, tk.END )
+        self.ymin.insert(0,ymin)
+        self.ymax.insert(0,ymax)
 
     def updateXmin( self, value ):
         self.plots.set_xlim( left=value )
@@ -127,34 +84,65 @@ class Control:
         self.plots.set_ylim( top=value )
 
     def replot( self ):
-        # Update all axes
-        self.updateXmin( float(self.xlim.min.get()) )
-        self.updateXmax( float(self.xlim.max.get()) )
-        self.updateYmin( float(self.ylim.min.get()) )
-        self.updateYmax( float(self.ylim.max.get()) )
+        if ( self.plots.getActive() is None ):
+            return
+
+        # Update xmin
+        try:
+            xmin = float(self.xmin.get())
+            self.updateXmin( xmin )
+        except Exception as exc:
+            print (str(exc))
+            xmin, xmax = self.plots.getActive().ax.get_xlim()
+            self.xmin.delete(0, tk.END)
+            self.xmin.insert(0, str(xmin))
+
+        # Update xmax
+        try:
+            xmax = float( self.xmax.get() )
+            self.updateXmax(xmax)
+        except Exception as exc:
+            print (str(exc))
+            xmin, xmax = self.plots.getActive().ax.get_xlim()
+            self.xmax.delete(0, tk.END)
+            self.xmax.insert(0, str(xmax))
+
+        # Update ymin
+        try:
+            ymin = float( self.ymin.get() )
+            self.updateYmin( ymin )
+        except Exception as exc:
+            print (str(exc))
+            ymin, ymax = self.plots.getActive().ax.get_ylim()
+            self.ymin.delete(0,tk.END)
+            self.ymin.insert(0, ymin)
+
+        # Update ymax
+        try:
+            ymax = float( self.ymax.get() )
+            self.updateYmax( ymax )
+        except Exception as exc:
+            print (str(exc))
+            ymin, ymax = self.plots.getActive().ax.get_ylim()
+            self.ymax.delete(0,tk.END)
+            self.ymax.insert(0, ymax)
+
         plt.show( block=False )
 
     def pack( self ):
-        self.availablePlotsMenu.pack()
-        self.xminLabel.pack()
-        self.xlim.pack()
-        self.ylabel.pack()
-        self.ylim.pack()
-        self.replotButton.pack(side="left")
-        self.saveButton.pack(side="left")
-        self.saveAllButton.pack(side="left")
-        self.closeAllButton.pack(side="left")
-
-    def pack_forget( self ):
-        self.availablePlotsMenu.pack_forget()
-        self.xminLabel.pack_forget()
-        self.xlim.pack_forget()
-        self.ylabel.pack_forget()
-        self.ylim.pack_forget()
-        self.replotButton.pack_forget()
-        self.saveButton.pack_forget()
-        self.saveAllButton.pack_forget()
-        self.closeAllButton.pack_forget()
+        self.availablePlotsMenu.grid(row=0)
+        self.xminLab.grid(row=1, column=0)
+        self.xmin.grid(row=1,column=1)
+        self.xmaxLab.grid(row=1,column=2)
+        self.xmax.grid(row=1,column=3)
+        self.yminLab.grid(row=2,column=0)
+        self.ymin.grid(row=2, column=1)
+        self.ymaxLab.grid(row=2,column=2)
+        self.ymax.grid(row=2,column=3)
+        self.replotButton.grid(row=3,column=0)
+        self.saveButton.grid(row=3,column=1)
+        self.saveAllButton.grid(row=3,column=2)
+        self.closeAllButton.grid(row=3,column=3)
 
     def disableControls( self ):
         self.xlim.disable()
@@ -180,7 +168,7 @@ class Control:
 
         activeAx = self.plots.updateActive( newentry )
         if ( not activeAx is None ):
-            self.updateSliders( activeAx )
+            self.updateEntries( activeAx )
 
     def save( self ):
         obj = self.plots.getActive()
