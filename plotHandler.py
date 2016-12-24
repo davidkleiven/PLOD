@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib as mpl
+mpl.rcParams["svg.fonttype"] = "none"
+mpl.rcParams["font.size"] = 36
+mpl.rcParams["axes.unicode_minus"]=False
 from matplotlib import pyplot as plt
 
 class Plot:
