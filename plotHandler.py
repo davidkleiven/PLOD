@@ -16,9 +16,6 @@ class PlotHandler:
     def __init__(self):
         self.axes = []
         self.active = 0
-        self.yloc = plt.MaxNLocator(5)
-        self.xloc = plt.MaxNLocator(5)
-        plt.locator_params(nbins=5)
 
     def set_xlim( self, left=None, right=None ):
         if ( self.active >= len(self.axes) ):
@@ -60,6 +57,7 @@ class PlotHandler:
         newPlot.fig.canvas.set_window_title(name)
         self.axes.append(newPlot)
         self.active = len(self.axes)-1
+        ax.locator_params(nbins=5)
 
     def getActive( self ):
         if ( self.active >= len(self.axes)):
