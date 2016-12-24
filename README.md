@@ -5,7 +5,7 @@ Plot Designer (PLOD) is a small GUI for modifying matplotlib axis while being ab
 Using the Plot Designer in a script requires a few extra lines of code.
 First import the tkinter package
 ```python
-import Tkinter as tk
+import tkinter as tk
 ```
 
 Import the control GUI
