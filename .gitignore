@@ -2,3 +2,4 @@
 *.svg
 *.ps
 *.ps_tex
+__pycache__/*
