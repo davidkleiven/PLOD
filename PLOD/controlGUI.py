@@ -1,5 +1,5 @@
 import tkinter as tk
-import plotHandler as ph
+from PLOD import plotHandler as ph
 from matplotlib import pyplot as plt
 import subprocess
 import numpy as np
