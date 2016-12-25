@@ -145,15 +145,11 @@ class Control:
         self.closeAllButton.grid(row=3,column=3)
 
     def disableControls( self ):
-        self.xlim.disable()
-        self.ylim.disable()
         self.replotButton.config(state="disabled")
         self.saveButton.config(state="disabled")
         self.isDisabled = True
 
     def enableControls( self ):
-        self.xlim.enable()
-        self.ylim.enable()
         self.replotButton.config(state="normal")
         self.saveButton.config(state="normal")
 
