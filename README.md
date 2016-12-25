@@ -39,8 +39,9 @@ control.attach( fig, ax, "emptyFig.svg" )
 ```
 
 An example is provided in the *guiTest.py* script.
-The axes can either be altered by the sliders provided in the GUI or
+The axes can either be altered by the entry fields provided in the GUI or
 by using the standard zooms and pan funcionality that comes with *matplotlib*.
+The resulting ps+ps_tex can be compiled to a standalone pdf using [ink2pdf](https://github.com/davidkleiven/ink2pdf).
 
 # Installation
 To install the pacakge, run the *setup.py* script
