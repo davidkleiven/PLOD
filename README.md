@@ -10,7 +10,7 @@ import tkinter as tk
 
 Import the control GUI
 ```python
-import controlGUI as cgui
+from PLOD import controlGUI as cgui
 ```
 
 Then create an instance of the Tk object
