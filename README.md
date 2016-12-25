@@ -45,7 +45,7 @@ by using the standard zooms and pan funcionality that comes with *matplotlib*.
 # Installation
 To install the pacakge, run the *setup.py* script
 ```bash
-python3 setup.py install/develop--user
+python3 setup.py install/develop --user
 ```
 if *install* is given, the module files will be copied and new changes will only
 be effective when the module is reinstalled.
