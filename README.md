@@ -41,3 +41,13 @@ control.attach( fig, ax, "emptyFig.svg" )
 An example is provided in the *guiTest.py* script.
 The axes can either be altered by the sliders provided in the GUI or
 by using the standard zooms and pan funcionality that comes with *matplotlib*.
+
+# Installation
+To install the pacakge, run the *setup.py* script
+```bash
+python3 setup.py install/develop--user
+```
+if *install* is given, the module files will be copied and new changes will only
+be effective when the module is reinstalled.
+If *develop* is given, only a link is required and new changes is effective.
+Omit *--user* if the install should be available for all users.
