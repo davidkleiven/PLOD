@@ -50,5 +50,5 @@ python3 setup.py install/develop --user
 ```
 if *install* is given, the module files will be copied and new changes will only
 be effective when the module is reinstalled.
-If *develop* is given, only a link is required and new changes is effective.
+If *develop* is given, only a link is created and new changes is effective.
 Omit *--user* if the install should be available for all users.
