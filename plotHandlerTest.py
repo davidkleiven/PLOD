@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-import plotHandler as ph
+from PLOD import plotHandler as ph
 import time
 
 def main():
@@ -10,7 +10,7 @@ def main():
     ax = fig.add_subplot(1,1,1)
     ax.plot(x,y,color="black")
     handler = ph.PlotHandler()
-    handler.attach(ax, "Test")
+    handler.attach(fig, ax, "Test")
     plt.show( block=False )
     time.sleep(5)
     handler.set_xlim( right=1 )

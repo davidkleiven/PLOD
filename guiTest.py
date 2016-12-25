@@ -1,6 +1,8 @@
+import sys
+sys.path.append('./')
 import numpy as np
 from matplotlib import pyplot as plt
-import controlGUI as cg
+from PLOD import controlGUI as cg
 import tkinter as tk
 
 def main():
