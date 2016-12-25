@@ -3,3 +3,4 @@
 *.ps
 *.ps_tex
 __pycache__/*
+PLOD.egg-info/*
