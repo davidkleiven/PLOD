@@ -13,7 +13,7 @@ setup(
     author='David Kleiven',
     licence='MIT',
     author_email='davidkleiven446@gmail.com',
-    install_requires=['numpy', 'matplotlib','subprocess',tkinterPackage],
+    install_requires=['numpy', 'matplotlib','subprocess'], # Requires also Tkinter (or tkinter), but is part of the standard library
     url='https://github.com/davidkleiven/PLOD',
     classifiers=[
         'Programming Language :: Python :: 3',
