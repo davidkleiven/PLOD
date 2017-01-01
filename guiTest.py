@@ -3,7 +3,10 @@ sys.path.append('./')
 import numpy as np
 from matplotlib import pyplot as plt
 from PLOD import controlGUI as cg
-import tkinter as tk
+try:
+    import tkinter as tk
+except ImportError:
+    import Tkinter as tk
 
 def main():
     root = tk.Tk()

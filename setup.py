@@ -1,4 +1,10 @@
 from setuptools import setup
+import sys
+
+if ( sys.version_info[0] == 2 ):
+    tkinterPackage = "Tkinter"
+else:
+    tkinterPackage = "tkinter"
 
 setup(
     name='PLOD',
@@ -7,7 +13,7 @@ setup(
     author='David Kleiven',
     licence='MIT',
     author_email='davidkleiven446@gmail.com',
-    install_requires=['numpy', 'matplotlib','subprocess','tkinter'],
+    install_requires=['numpy', 'matplotlib','subprocess',tkinterPackage],
     url='https://github.com/davidkleiven/PLOD',
     classifiers=[
         'Programming Language :: Python :: 3',
