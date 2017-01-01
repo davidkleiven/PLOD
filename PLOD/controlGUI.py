@@ -1,4 +1,10 @@
-import tkinter as tk
+try:
+    # Python 3
+    import tkinter as tk
+except ImportError:
+    # Python 2
+    import Tkinter as tk
+
 from PLOD import plotHandler as ph
 from matplotlib import pyplot as plt
 import subprocess
