@@ -1,10 +1,7 @@
 from setuptools import setup
-import sys
-
-if ( sys.version_info[0] == 2 ):
-    tkinterPackage = "Tkinter"
-else:
-    tkinterPackage = "tkinter"
+'''
+The packages subprocess and tkinter is also required from the standard library
+'''
 
 setup(
     name='PLOD',
@@ -13,7 +10,7 @@ setup(
     author='David Kleiven',
     licence='MIT',
     author_email='davidkleiven446@gmail.com',
-    install_requires=['numpy', 'matplotlib','subprocess'], # Requires also Tkinter (or tkinter), but is part of the standard library
+    install_requires=['numpy', 'matplotlib'],
     url='https://github.com/davidkleiven/PLOD',
     classifiers=[
         'Programming Language :: Python :: 3',
