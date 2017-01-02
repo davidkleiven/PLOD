@@ -33,6 +33,14 @@ class Control:
         self.ymaxLab = tk.Label( self.master, text="ymax:")
         self.ymax = tk.Entry( self.master, width=10 )
 
+        # Check button fox x-logscale
+        self.xlogVar = tk.IntVar()
+        self.xlog = tk.Checkbutton( self.master, text="Log", variable=self.xlogVar, onvalue=1, offvalue=0)
+
+        # Check button for y-scale
+        self.ylogVar = tk.IntVar()
+        self.ylog= tk.Checkbutton( self.master, text="Log", variable=self.ylogVar, onvalue=1, offvalue=0)
+
         # Button for replotting
         self.replotButton = tk.Button(self.master, text="Replot", command=self.replot)
 
@@ -134,6 +142,17 @@ class Control:
             self.ymax.delete(0,tk.END)
             self.ymax.insert(0, ymax)
 
+        # Set log scales
+        active = self.plots.getActive()
+        if ( self.xlogVar.get() == 1 ):
+            active.ax.set_xscale( "log" )
+        else:
+            active.ax.set_xscale( "linear" )
+
+        if ( self.ylogVar.get() == 1 ):
+            active.ax.set_yscale("log")
+        else:
+            active.ax.set_yscale("linear")
         plt.show( block=False )
 
     def pack( self ):
@@ -142,10 +161,12 @@ class Control:
         self.xmin.grid(row=1,column=1)
         self.xmaxLab.grid(row=1,column=2)
         self.xmax.grid(row=1,column=3)
+        self.xlog.grid(row=1,column=4)
         self.yminLab.grid(row=2,column=0)
         self.ymin.grid(row=2, column=1)
         self.ymaxLab.grid(row=2,column=2)
         self.ymax.grid(row=2,column=3)
+        self.ylog.grid(row=2,column=4)
         self.replotButton.grid(row=3,column=0)
         self.saveButton.grid(row=3,column=1)
         self.saveAllButton.grid(row=3,column=2)
