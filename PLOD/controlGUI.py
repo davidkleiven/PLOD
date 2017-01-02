@@ -86,6 +86,21 @@ class Control:
         self.ymin.insert(0,ymin)
         self.ymax.insert(0,ymax)
 
+        # Update checkbuttons
+        if ( active.ax.get_xscale() == "log" ):
+            self.xlogVar.set(1)
+        elif ( active.ax.get_yscale() == "linear" ):
+            self.xlogVar.set(0)
+        else:
+            print ("Warning! Did not recognize scale: %s"%(active.ax.get_xscale()))
+
+        if ( active.ax.get_yscale() == "log" ):
+            self.ylogVar.set(1)
+        elif ( active.ax.get_yscale() == "linear" ):
+            self.ylogVar.set(0)
+        else:
+            print ("Warning! Did not recognize scale: %s"%(active.ax.get_yscale()))
+
     def updateXmin( self, value ):
         self.plots.set_xlim( left=value )
 
